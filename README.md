@@ -1,7 +1,7 @@
 Britské listy RSS feed workaround
 =================================
 
-This downloads and reformats the RSS feed of the Czech-language blog *Britské listy* ( http://blisty.cz/ ).
+This downloads and reformats the RSS feed of the Czech-language blog *Britské listy* <http://blisty.cz/>
 
 It roughly works like this:
 
