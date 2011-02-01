@@ -1,5 +1,6 @@
 #!/usr/bin/python
 
+from copy import deepcopy
 from lxml import etree
 import urllib2
 import rfc822
@@ -28,7 +29,7 @@ for item in tree.iter('item'):
     date_tag_tuple = tuple( map(int,date.text.split('-')) )
     # Try to find a valid RFC date, including a timestamp, by looking at the article's last-modified HTTP header
     link = item.find('link')
-    response = urllib2.urlopen(HeadRequest(item.find('link').text))
+    response = urllib2.urlopen(HeadRequest(link.text))
     last_modified_tuple = response.headers.getdate('last-modified')
     # Compare the tuples, see if the HTTP header and the original date match
     if date_tag_tuple == last_modified_tuple[:3]:
@@ -38,7 +39,11 @@ for item in tree.iter('item'):
       # Cannot reliably use the HTTP header -> convert the original date to RFC form
       date_tag_tuple = date_tag_tuple + (12,0,0,0,0,0,0) # noon GMT on the original date
       date.text = rfc822.formatdate(rfc822.mktime_tz(date_tag_tuple))
-    
+    # Add a GUID equal to the link
+    guid = deepcopy(link)
+    guid.tag = 'guid'
+    item.append(guid)
+
   except:
     pass
 
