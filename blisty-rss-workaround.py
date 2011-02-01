@@ -1,3 +1,5 @@
+#!/usr/bin/python
+
 from lxml import etree
 import urllib2
 import rfc822
@@ -40,5 +42,5 @@ for item in tree.iter('item'):
   except:
     pass
 
-print "Content-type: text/plain\n\n"
+print "Content-type: application/rss+xml\n\n"
 print etree.tostring(tree,encoding='us-ascii').replace(tree.docinfo.doctype,'',1).strip()
